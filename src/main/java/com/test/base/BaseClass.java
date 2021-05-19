@@ -54,13 +54,13 @@ public class BaseClass {
 				System.setProperty("webdriver.gecko.driver",
 						System.getProperty("user.dir") + "\\drivers\\geckodriver.exe");
 				driver = new FirefoxDriver();
-			} else if (browserName.equalsIgnoreCase("Opera")) {
+			} else if (browserName.equalsIgnoreCase("Edge")) {
 				System.setProperty("webdriver.opera.driver",
-						System.getProperty("user.dir") + "/drivers/operadriver.exe");
+						System.getProperty("user.dir") + "\\drivers\\operadriver.exe");
 				driver = new OperaDriver();
 			} else if (browserName.equalsIgnoreCase("IE")) {
 				System.setProperty("webdriver.ie.driver",
-						System.getProperty("user.dir") + "/drivers/IEDriverServer.exe");
+						System.getProperty("user.dir") + "\\drivers\\IEDriverServer.exe");
 				driver = new InternetExplorerDriver();
 			}
 

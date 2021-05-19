@@ -27,9 +27,7 @@ public class TestUtil extends BaseClass {
 	static Sheet sheet;
 	static JavascriptExecutor js;
 
-	public void switchToFrame() {
-		driver.switchTo().frame("mainpanel");
-	}
+
 
 	public static Object[][] getTestData(String sheetName) {
 		FileInputStream file = null;

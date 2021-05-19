@@ -42,8 +42,8 @@ public class ExistingCustomerTests extends BaseClass {
 			throws InterruptedException, IOException {
 
 		exsistingCustomerPage.createLogin(UserNameInput, userPasswordInput);
-		// TestUtil.takeScreenshotAtEndOfTest();
-		// Issue facing or catcha
+		
+		// Issue facing or captcha
 		// unable to retrieve the errormessage in text
 		// Planning to implement takescreenshot for the failures.
 	}

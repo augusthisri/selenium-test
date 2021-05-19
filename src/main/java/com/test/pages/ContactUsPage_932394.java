@@ -1,6 +1,11 @@
 package com.test.pages;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -101,32 +106,36 @@ public class ContactUsPage_932394 extends BaseClass {
 
 		Select category = new Select(driver.findElement(By.xpath("//select[@name='category']")));
 		// category.selectByIndex(15);
-		// category.selectByVisibleText("LOAN APPLICATION");
-		category.selectByVisibleText("BEHAVIOURAL ISSUES");
+	//	category.selectByVisibleText("LOAN APPLICATION");
+	 	category.selectByVisibleText("BEHAVIOURAL ISSUES");
 
 		Select country = new Select(driver.findElement(By.xpath("//select[@name='branch_country']")));
 		country.selectByIndex(2);
 
-		customerName.sendKeys("customerNameInput");
-		customerContactNumber.sendKeys("contactNumber");
-		customerContactemail.sendKeys("customerEmail");
-		customerContactAddress.sendKeys("customerAddress");
+		customerName.sendKeys(customerNameInput);
+		customerContactNumber.sendKeys(contactNumber);
+		customerContactemail.sendKeys(customerEmail);
+		customerContactAddress.sendKeys(customerAddress);
 		writeEnquiry.clear();
-		writeEnquiry.sendKeys("writeAnEnquiry");
+		writeEnquiry.sendKeys(writeAnEnquiry);
 
 		// conformation.click();
 		conformation.isSelected();
 		logger.info("conformation :" + conformation.getText());
+		
+	
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		String currentDir = System.getProperty("user.dir");
+		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
 
 		Submit.click();
 		logger.info("conformation :" + Submit.getText());
 
-		TestUtil.takeScreenshotAtEndOfTest();
-
-		// errorMessageForAcno.getText();
-
+		//errorMessageForAcno.getText();
 		// logger.info("errorMessageForAcno :" + errorMessageForAcno.getText());
 
 	}
+	
+	
 
 }
