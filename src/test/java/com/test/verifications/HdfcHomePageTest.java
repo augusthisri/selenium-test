@@ -3,6 +3,8 @@ package com.test.verifications;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.test.base.BaseClass;
@@ -15,20 +17,25 @@ public class HdfcHomePageTest extends BaseClass {
 	public HdfcHomePageTest() {
 		super();
 	}
+	
 
-	@BeforeMethod
-	public void setup() {
-		invokeBrowser();
+	
+	@Parameters({"browser", "url"})
+	@BeforeMethod(groups= {"Smoke"})
+	public void setup( String browserName,  String url) {
+		
+
+		invokeBrowser( browserName,  url);
 		hdfcHomePage = new HdfcHomePage_932394();
 	}
 
-	@Test(priority = 2)
+	@Test(groups= {"Smoke"})
 	public void hdfcLogoTest() {
 		boolean flag = hdfcHomePage.validateHDFCLogo();
 		Assert.assertTrue(flag);
 	}
 
-	@Test(priority = 1)
+	@Test(groups= {"Regression"})
 	public void hdfcLoanProducts() throws InterruptedException {
 
 		hdfcHomePage.clickOnLoanHomeProduct();
@@ -40,14 +47,14 @@ public class HdfcHomePageTest extends BaseClass {
 		Assert.assertTrue(otherHomeLoagLoanflag);
 	}
 
-	@Test(priority = 3)
+	@Test(groups= {"Regression"})
 	public void hdfcDepositStatementValidation() throws InterruptedException {
 
 		String DepositStatement = hdfcHomePage.validatehdfcDepositStatement();
 		Assert.assertEquals(DepositStatement, "Attractive returns and safety, in one Investment");
 	}
 
-	@Test(priority = 4)
+	@Test(groups= {"Smoke"})
 	public void applyOnline() throws InterruptedException {
 
 		boolean applyOnlineflag = hdfcHomePage.validateApplyOnlineIsDiplayed();
@@ -55,7 +62,7 @@ public class HdfcHomePageTest extends BaseClass {
 
 	}
 
-	@AfterMethod
+	@AfterMethod(groups= {"Smoke"})
 	public void tearDown() {
 
 		driver.close();

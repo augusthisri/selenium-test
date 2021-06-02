@@ -1,6 +1,8 @@
 package com.test.pages;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -17,22 +19,30 @@ import com.test.config.TestUtil;
 
 public class ContactUsPage_932394 extends BaseClass {
 
-	// PageFactory -OR:
+	BaseClass baseClass;
 
-	@FindBy(xpath = "//body/div[@id='mm-0']/div[@id='HomepageModalVideo']/div[1]/div[1]/div[1]/button[1]")
-	public WebElement closebutton;
+	@FindBy(xpath = "//*[contains(@id,'HomepageModalVideo')]/div/div/div[1]/button[1]")
+	public WebElement closeButton;
 
-	// @FindBy(xpath = "(//a[@title='Contact Us'])[1]")
-	// public WebElement contactUs;
-
-	@FindBy(xpath = "//header/div[1]/div[2]/div[1]/section[1]/div[1]/div[1]/ul[3]/li[5]")
+	@FindBy(xpath = "(//*[contains(@title,'Contact Us')])[2]")
 	public WebElement contactUs;
 
-	@FindBy(xpath = "//*[@id=\"primary-menu\"]/li[5]/div/div[1]/ul/li[1]/a")
+	@FindBy(xpath = "(//*[contains(@title,'Write to us')])[2]")
 	public WebElement writeToUs;
+	@FindBy(xpath = "(//*[contains(@title,'Helpline Numbers')])[2]")
+	public WebElement helpLineNumbers;
 
-	@FindBy(xpath = "//*[@id=\"mm-0\"]/div[2]/div[2]/div/section/div[2]/article/div/div/div[2]/div[2]/h2/span")
-	public WebElement writeToUs2;
+	@FindBy(xpath = "(//*[contains(@title,'Locate us')])[2]")
+	public WebElement locateUs;
+
+	@FindBy(xpath = "(//*[contains(@title,'Grievance Redressal')])[2]")
+	public WebElement grievanceRedressal;
+
+	@FindBy(xpath = "(//*[contains(@title,'HDFC Corporate Office')])[2]")
+	public WebElement hdfcCorpOffice;
+
+	@FindBy(xpath = "(//*[contains(@title,'HDFC Deposit Centers')])[2]")
+	public WebElement hdfcDepositCentres;
 
 	@FindBy(xpath = "//*[@id='edit-product-type']/div[1]/label")
 	public WebElement homeLoanSelect;
@@ -41,7 +51,6 @@ public class ContactUsPage_932394 extends BaseClass {
 	public WebElement newCustomerselect;
 
 	@FindBy(xpath = "//input[@id='edit-cust-occupation-salaried']")
-
 	public WebElement typeOfIncome;
 
 	@FindBy(xpath = "//*[contains(@name,'customername')]")
@@ -56,86 +65,150 @@ public class ContactUsPage_932394 extends BaseClass {
 	@FindBy(xpath = "//*[contains(@name,'address')]")
 	public WebElement customerContactAddress;
 
-	@FindBy(xpath = "//*[contains(@name,'file_lac_dep_no')]")
+	@FindBy(xpath = "//input[contains(@name,'file_lac_dep_no')]")
 	public WebElement homeLoanAccountNumber;
 
 	@FindBy(xpath = "//*[contains(@name,'interactiondetails')]")
 	public WebElement writeEnquiry;
 
-	@FindBy(xpath = "//*[@id=\"webform-submission-write-to-us-node-218-add-form\"]/div[14]/label")
+	@FindBy(xpath = "//select[@name='branch_country']")
+	public WebElement selectCountry;
+
+	@FindBy(xpath = "//div[contains(@class,'form-item-conformation checkbox')]")
 	public WebElement conformation;
 
-	@FindBy(xpath = "//button[@id='edit-submit']")
+	// @FindBy(xpath = " //*[@id=\"edit-submit\"]")
+	// @FindBy(xpath = "//*[contains(@id,'edit-submit--1jYofrwqFbI')]")
+	// @FindBy(xpath =
+	// "/html/body/div[2]/div[2]/div[2]/div/section/div[2]/article/div/div/div[2]/div[3]/div/div/form/div[15]/button")
+	@FindBy(xpath = "(//div[contains(@id,'edit-actions') and (@class='form-actions form-group js-form-wrapper form-wrapper')])[1]")
 	public WebElement Submit;
 
 	@FindBy(xpath = "//*[@id=\"webform-submission-write-to-us-node-218-add-form\"]/div[12]/div")
 	public WebElement errorMessageForAcno;
+
+	@FindBy(xpath = "//select[@name='category']")
+	public WebElement categorySelect;
+
+	//// *[@id="edit-sub-category--OMOxGSCJ9hk"]
+
+	@FindBy(xpath = "//*[contains(@id,'edit-sub-category-')]")
+	public WebElement subcategorySelect;
 
 	public ContactUsPage_932394() {
 		PageFactory.initElements(driver, this);
 	}
 
 	public String contactUsPagevalidationForHeaders() throws InterruptedException {
-		closebutton.click();
+		closeButton.click();
 		String Pagetitle = driver.getCurrentUrl();
-		logger.info("pagename :" + Pagetitle.toString());
 
 		Actions action = new Actions(driver);
 		action.moveToElement(contactUs).build().perform();
+
 		contactUs.click();
-		Thread.sleep(2000);
-		// contactUs.click();
-		contactUs.getText();
-		logger.info("pagename :" + contactUs.getText());
+
+		action.moveToElement(helpLineNumbers).build().perform();
+
+		action.moveToElement(locateUs).build().perform();
+
+		action.moveToElement(grievanceRedressal).build().perform();
+
+		action.moveToElement(hdfcCorpOffice).build().perform();
+
+		action.moveToElement(hdfcDepositCentres).build().perform();
 
 		return contactUs.getText();
 	}
 
-	public void WriteToUsValidation(String customerNameInput, String contactNumber, String customerEmail,
-			String customerAddress, String writeAnEnquiry) throws InterruptedException, Exception {
+	public boolean iscontactUsDisplayed() {
 
-		closebutton.click();
-		String Pagetitle = driver.getCurrentUrl();
-		logger.info("pagename :" + Pagetitle.toString());
+		return contactUs.isDisplayed();
+	}
 
-		driver.navigate().to(prop.getProperty("writeTousURL"));
+	public boolean isWriteToUsDisplayed() {
 
-		homeLoanSelect.click();
+		return writeToUs.isDisplayed();
+	}
 
-		newCustomerselect.click();
+	public boolean isLocateUsDisplayed() {
 
-		Select category = new Select(driver.findElement(By.xpath("//select[@name='category']")));
-		// category.selectByIndex(15);
-	//	category.selectByVisibleText("LOAN APPLICATION");
-	 	category.selectByVisibleText("BEHAVIOURAL ISSUES");
+		return locateUs.isDisplayed();
+	}
 
-		Select country = new Select(driver.findElement(By.xpath("//select[@name='branch_country']")));
-		country.selectByIndex(2);
+	public boolean isGrievanceRedressalDisplayed() {
 
-		customerName.sendKeys(customerNameInput);
-		customerContactNumber.sendKeys(contactNumber);
-		customerContactemail.sendKeys(customerEmail);
-		customerContactAddress.sendKeys(customerAddress);
-		writeEnquiry.clear();
-		writeEnquiry.sendKeys(writeAnEnquiry);
+		return grievanceRedressal.isDisplayed();
+	}
 
-		// conformation.click();
-		conformation.isSelected();
-		logger.info("conformation :" + conformation.getText());
-		
-	
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		String currentDir = System.getProperty("user.dir");
-		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
+	public boolean ishdfcCorpOfficeDisplayed() {
 
-		Submit.click();
-		logger.info("conformation :" + Submit.getText());
+		return writeToUs.isDisplayed();
+	}
 
-		//errorMessageForAcno.getText();
-		// logger.info("errorMessageForAcno :" + errorMessageForAcno.getText());
+	public boolean ishdfcDepositCentresDisplayed() {
+
+		return hdfcDepositCentres.isDisplayed();
+	}
+
+	public void WriteToUsValidation(String enquiryType, String subenquiryType, String customerNameInput,
+			String contactNumber, String customerEmail, String customerAddress, String writeAnEnquiry)
+			throws InterruptedException, Exception {
+
+		baseClass = new BaseClass();
+
+		closeButton.click();
+
+		contactUs.click();
+
+		Actions mouseactions = new Actions(driver);
+		mouseactions.moveToElement(writeToUs).build().perform();
+		writeToUs.click();
+
+		String HomePageWindow = driver.getWindowHandle();
+
+		Set<String> s1 = driver.getWindowHandles();
+
+		Iterator<String> i1 = s1.iterator();
+
+		while (i1.hasNext()) {
+			String writetoUsRequestPage = i1.next();
+			if (!HomePageWindow.equalsIgnoreCase(writetoUsRequestPage)) {
+				driver.switchTo().window(writetoUsRequestPage);
+
+				closeButton.click();
+
+				homeLoanSelect.click();
+
+				newCustomerselect.click();
+
+				baseClass.selectDropDownValue(categorySelect, enquiryType);
+
+				baseClass.selectDropDownValue(subcategorySelect, subenquiryType);
+
+				Select country = new Select(selectCountry);
+				country.selectByIndex(2);
+
+				customerName.sendKeys(customerNameInput);
+				customerContactNumber.sendKeys(contactNumber);
+				customerContactemail.sendKeys(customerEmail);
+				customerContactAddress.sendKeys(customerAddress);
+
+				writeEnquiry.clear();
+				writeEnquiry.sendKeys(writeAnEnquiry);
+				conformation.click();
+				conformation.isSelected();
+
+				File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+				String currentDir = System.getProperty("user.dir");
+				FileUtils.copyFile(scrFile,
+						new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
+
+				Submit.submit();
+
+			}
+		}
 
 	}
-	
-	
 
 }

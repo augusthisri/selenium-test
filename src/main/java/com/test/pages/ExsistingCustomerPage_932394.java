@@ -2,6 +2,7 @@ package com.test.pages;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -18,7 +19,7 @@ import com.test.config.TestUtil;
 
 public class ExsistingCustomerPage_932394 extends BaseClass {
 
-	@FindBy(xpath = "//body/div[@id='mm-0']/div[@id='HomepageModalVideo']/div[1]/div[1]/div[1]/button[1]")
+	@FindBy(xpath = "//*[contains(@id,'HomepageModalVideo')]/div/div/div[1]/button[1]")
 	public WebElement closebutton;
 
 ////*[@id="navbarDropdown"]
@@ -26,8 +27,10 @@ public class ExsistingCustomerPage_932394 extends BaseClass {
 	@FindBy(xpath = "//*[@id='navbarDropdown' and @title='Existing Customers']")
 	WebElement exsistingCusLink;
 
-//@FindBy(linkText="Existing Customers")
-	@FindBy(xpath = "(//*[@class='dropdown-toggle' and @title='For Home Loans'])[1]")
+	// @FindBy(linkText="Existing Customers")
+	// @FindBy(xpath = "(//*[@class='dropdown-toggle' and @title='For Home
+	// Loans'])[1]")
+	@FindBy(xpath = "(//*[contains(@title, 'For Home Loans')])[2]")
 	WebElement forHomeLoanLinlk;
 
 	@FindBy(xpath = "//li[@class='first leaf']/a[@title='Customer Login']")
@@ -45,7 +48,9 @@ public class ExsistingCustomerPage_932394 extends BaseClass {
 	@FindBy(xpath = "//button[contains(text(),'LOGIN')]")
 	WebElement Submit;
 
-	@FindBy(xpath = "//*[@id=\"login_box\"]/span")
+	// @FindBy(xpath = "//*[@id=\"login_box\']/span")
+
+	@FindBy(xpath = "//*[contains(@id,'login_box')]/span")
 	WebElement captureErrorMessage;
 
 	public ExsistingCustomerPage_932394() {
@@ -56,66 +61,57 @@ public class ExsistingCustomerPage_932394 extends BaseClass {
 
 		closebutton.click();
 		String Pagetitle = driver.getCurrentUrl();
-		logger.info("pagename :" + Pagetitle.toString());
 
 		Actions mouseactions = new Actions(driver);
 
 		mouseactions.moveToElement(exsistingCusLink).build().perform();
+		forHomeLoanLinlk.click();
+		mouseactions.moveToElement(forHomeLoanLinlk).build().perform();
+		mouseactions.moveToElement(custommerlogin).click().perform();
+		System.out.println("custommerlogin is " + custommerlogin);
 
-		logger.info("mouseactions :" + exsistingCusLink.getText());
+		String HomePageWindow = driver.getWindowHandle();
+		System.out.println("Main window handle is " + HomePageWindow);
+		System.out.println("Main window handle is " + driver.getCurrentUrl());
 
-		logger.info("mouseactions :" + forHomeLoanLinlk.getText());
-		logger.info("mouseactions :" + custommerlogin.getText());
-		// new WebDriverWait(driver,
-		// 20).until(ExpectedConditions.elementToBeClickable(custommerlogin)).click();
+		// To handle all new opened window
+		Set<String> s1 = driver.getWindowHandles();
+		System.out.println("Child window handle is" + s1);
+		System.out.println("Child window handle is " + driver.getCurrentUrl());
+		Iterator<String> i1 = s1.iterator();
 
-		String customerLoginurl = "https://portal.hdfc.com/login";
-		driver.navigate().to(customerLoginurl);
-//			
-		Set<String> customerLogin = driver.getWindowHandles();
-		System.out.println(customerLogin);
+		while (i1.hasNext()) {
+			String customerLoginPage = i1.next();
+			if (!HomePageWindow.equalsIgnoreCase(customerLoginPage)) {
+				driver.switchTo().window(customerLoginPage);
+				System.out.println("Switching to child Windoiw");
+				System.out.println("Child window handle is " + driver.getCurrentUrl());
 
-		userIdButton.click();
-		logger.info("userIdButton :" + userIdButton.getText());
-		logger.info("userIdButton :" + userIdButton.isSelected());
-		logger.info("userIdButton :" + userIdButton.isEnabled());
+				userIdButton.click();
 
-		userName.clear();
-		userName.sendKeys(userNameInput);
+				userName.clear();
+				userName.sendKeys(userNameInput);
 
-		logger.info("userName :" + userName.getText());
-		logger.info("userName :" + userName.isSelected());
-		logger.info("userName :" + userName.isEnabled());
-		String Pagetitle1 = driver.getCurrentUrl();
-		logger.info("pagename :" + Pagetitle.toString());
-		logger.info("pagename :" + Pagetitle1.toString());
+				String Pagetitle1 = driver.getCurrentUrl();
+				System.out.println(Pagetitle1);
 
-		userPassword.sendKeys(userPasswordInput);
+				userPassword.sendKeys(Pagetitle1);
 
-		logger.info("userPassword :" + userName.getText());
-		logger.info("userPassword :" + userName.isSelected());
-		logger.info("userPassword :" + userName.isEnabled());
+				WebElement Submit = driver.findElement(By.xpath("//button[contains(text(),'LOGIN')]"));
 
-		WebElement Submit = driver.findElement(By.xpath("//button[contains(text(),'LOGIN')]"));
+				Submit.click();
 
-		Submit.click();
+				captureErrorMessage.getText();
 
-		captureErrorMessage.getText();
-		logger.info("pagename :" + captureErrorMessage.toString());
+				System.out.println("captureErrorMessage" + captureErrorMessage.getText());
+				System.out.println("closing the child window ");
 
+			}
 
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		String currentDir = System.getProperty("user.dir");
-		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
+			driver.navigate().to(prop.getProperty("url"));
 
+		}
 
-		driver.navigate().to(prop.getProperty("url"));
-
-		// captureErrorMessage.getText();
-		logger.info("pagename :" + captureErrorMessage.toString());
-		
-		
-		
 	}
 
 }

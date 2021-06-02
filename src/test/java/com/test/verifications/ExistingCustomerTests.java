@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.test.base.BaseClass;
@@ -22,10 +24,12 @@ public class ExistingCustomerTests extends BaseClass {
 
 	}
 
-	@BeforeMethod
-	public void setup() {
-
-		invokeBrowser();
+	@Parameters({"browser", "url"})
+	@BeforeMethod(groups= {"Smoke"})
+	public void setup(@Optional ("Optional Parameter") String browserName, String url) {
+		
+		
+		invokeBrowser( browserName,  url);
 		exsistingCustomerPage = new ExsistingCustomerPage_932394();
 		testUtil = new TestUtil();
 
@@ -37,7 +41,7 @@ public class ExistingCustomerTests extends BaseClass {
 		return data;
 	}
 
-	@Test(priority = 1, dataProvider = "getHDFCTestData")
+	@Test(priority = 1, dataProvider = "getHDFCTestData" ,groups= {"Smoke"})
 	public void createLoginTests(String UserNameInput, String userPasswordInput)
 			throws InterruptedException, IOException {
 
@@ -48,7 +52,7 @@ public class ExistingCustomerTests extends BaseClass {
 		// Planning to implement takescreenshot for the failures.
 	}
 
-	@AfterMethod
+	@AfterMethod(groups= {"Smoke"})
 	public void tearDown() {
 
 		driver.quit();

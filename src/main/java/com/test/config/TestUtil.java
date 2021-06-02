@@ -19,15 +19,13 @@ public class TestUtil extends BaseClass {
 
 	public static long PAGE_LOAD_TIME_OUT = 20;
 
-	public static long IMPLICITL_WAIT = 20;
+	public static long IMPLICITL_WAIT = 50;
 
 	public static String TESTDATA_SHEET_PATH = "src/main/resources/HDFCCustomerLoginData.xlsx";
 
 	static Workbook book;
 	static Sheet sheet;
 	static JavascriptExecutor js;
-
-
 
 	public static Object[][] getTestData(String sheetName) {
 		FileInputStream file = null;

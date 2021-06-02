@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test thread-count="5" name="Test">
+   <parameter name = "browser" value ="Edge" />
+   <parameter name = "url" value ="https://www.hdfc.com" /> 
+  	<groups>  
+	   <run>  
+	      <include name="Smoke" >  </include>
+	      <include name="Regression" >  </include>
+	    </run>  
+	 </groups> 
+    <classes>      
+         <class name="com.test.verifications.HdfcHomePageTest"/> 
+         <class name="com.test.verifications.ExistingCustomerTests"/>
+         <class name="com.test.verifications.ContactUsPageTest"/>    	
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
