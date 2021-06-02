@@ -26,7 +26,7 @@ public class ExistingCustomerTests extends BaseClass {
 
 	@Parameters({"browser", "url"})
 	@BeforeMethod(groups= {"Smoke"})
-	public void setup(@Optional ("Optional Parameter") String browserName, String url) {
+	public void setup( String browserName, String url) {
 		
 		
 		invokeBrowser( browserName,  url);

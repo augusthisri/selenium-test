@@ -68,43 +68,29 @@ public class ExsistingCustomerPage_932394 extends BaseClass {
 		forHomeLoanLinlk.click();
 		mouseactions.moveToElement(forHomeLoanLinlk).build().perform();
 		mouseactions.moveToElement(custommerlogin).click().perform();
-		System.out.println("custommerlogin is " + custommerlogin);
 
 		String HomePageWindow = driver.getWindowHandle();
-		System.out.println("Main window handle is " + HomePageWindow);
-		System.out.println("Main window handle is " + driver.getCurrentUrl());
 
 		// To handle all new opened window
 		Set<String> s1 = driver.getWindowHandles();
-		System.out.println("Child window handle is" + s1);
-		System.out.println("Child window handle is " + driver.getCurrentUrl());
+
 		Iterator<String> i1 = s1.iterator();
 
 		while (i1.hasNext()) {
 			String customerLoginPage = i1.next();
 			if (!HomePageWindow.equalsIgnoreCase(customerLoginPage)) {
 				driver.switchTo().window(customerLoginPage);
-				System.out.println("Switching to child Windoiw");
-				System.out.println("Child window handle is " + driver.getCurrentUrl());
 
 				userIdButton.click();
 
 				userName.clear();
 				userName.sendKeys(userNameInput);
-
-				String Pagetitle1 = driver.getCurrentUrl();
-				System.out.println(Pagetitle1);
-
-				userPassword.sendKeys(Pagetitle1);
-
-				WebElement Submit = driver.findElement(By.xpath("//button[contains(text(),'LOGIN')]"));
+				userPassword.clear();
+				userPassword.sendKeys(userPasswordInput);
 
 				Submit.click();
 
 				captureErrorMessage.getText();
-
-				System.out.println("captureErrorMessage" + captureErrorMessage.getText());
-				System.out.println("closing the child window ");
 
 			}
 

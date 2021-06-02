@@ -9,18 +9,12 @@ import com.test.base.BaseClass;
 
 public class HdfcHomePage_932394 extends BaseClass {
 
-
-
-
 	@FindBy(xpath = "//*[contains(@id,'HomepageModalVideo')]/div/div/div[1]/button[1]")
 	public WebElement closebutton;
 
-
-	
 	@FindBy(xpath = "(//*[starts-with(@title,'Loan Products' )])[2]")
 //	@FindBy(linkText = "Loan Products")
 	public WebElement LoanProduct;
-
 
 	@FindBy(xpath = "(//*[starts-with(@title,'Housing Loans' )])[2]")
 //	@FindBy(linkText = "Housing Loans")
